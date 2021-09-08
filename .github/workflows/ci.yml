@@ -20,7 +20,7 @@ jobs:
           docker-compose build
       - name: Setup test database
         run: |
-          docker-compose run --rm test rails db:setup
+          docker-compose run --rm api rails db:setup
       - name: Run tests
         run: |
-          docker-compose run --rm test rspec
+          docker-compose run --rm api rspec

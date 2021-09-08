@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  # Run tests for any PRs.
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build docker
+        run: |
+          docker-compose build
+      - name: Setup test database
+        run: |
+          docker-compose run --rm api rails db:setup RAILS_ENV=test
+      - name: Run tests
+        run: |
+          docker-compose run --rm api rspec

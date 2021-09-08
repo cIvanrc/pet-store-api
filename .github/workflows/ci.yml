@@ -10,6 +10,9 @@ on:
 
 jobs:
   test:
+    env:
+      RAILS_ENV: test
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +23,7 @@ jobs:
           docker-compose build
       - name: Setup test database
         run: |
-          docker-compose run --rm api rails db:setup
+          docker-compose run --rm api rails db:prepare
       - name: Run tests
         run: |
           docker-compose run --rm api rspec

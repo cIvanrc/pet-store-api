@@ -1,0 +1,34 @@
+version: '3.4'
+volumes:
+  dbdata:
+services:
+  db:
+    image: postgres:13.1
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+
+  api:
+    build: .
+
+    # Keep the stdin open, so we can attach to our app container's process
+    # and do things such as byebug, etc:
+    stdin_open: true
+    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
+    tty: true
+    environment:
+      # We'll set the DATABASE_URL environment variable for the app to connect
+      # to our postgres container - no need to use a 'config/database.yml' file.
+      DATABASE_HOST_URL: ${DATABASE_URL:-SOME_DATABASE_URL}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}
+
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

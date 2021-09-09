@@ -2,10 +2,10 @@
 
 # Handles the #index, #show, #create
 class Api::V1::PetsController < ApplicationController
-  rescue_from ActionController::ParameterMissing, with: :error_missing_params
-
   def index
-    render json: Pet.all, status: :ok
+    @pets = Pet.page(page).per(limit)
+    set_pagination_headers
+    render json: @pets, status: :ok
   end
 
   def create
@@ -28,8 +28,20 @@ class Api::V1::PetsController < ApplicationController
     params.require(:pet).permit(:name, :tag)
   end
 
-  def error_missing_params
-    errors = ['param is missing or the value is empty']
-    render json: { errors: errors }, status: :unprocessable_entity
+  def page
+    params[:page] || 1
+  end
+
+  def limit
+    limit_param = (params[:limit] || 5).to_i
+    limit_param >= 100 ? 100 : limit_param
+  end
+
+  def set_pagination_headers
+    headers['Link'] = next_link(@pets.next_page) if @pets.next_page
+  end
+
+  def next_link(page)
+    "<#{api_v1_pets_url(request.query_parameters.merge(page: page))}; rel='next'>"
   end
 end

@@ -30,8 +30,10 @@ describe 'Create a Pet', type: :request do
     it 'without params' do
       post api_v1_pets_path, headers: authorization_headers, params: { }
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(json[:errors].first).to eq 'param is missing or the value is empty'
+      expect(response).to have_http_status(:not_found)
+
+      example_error = {"code"=>115, "message"=>"Missing required parameter"}
+      expect(json).to eq example_error
     end
   end
 end

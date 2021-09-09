@@ -7,19 +7,14 @@ describe 'Pets index', type: :request do
     end
 
     let(:expected_result) do
-      { 'data' => [{
-        'id' => '1',
-        'type' => 'pets',
-        'attributes' => { 'name' => 'pet_1', 'tag' => nil }
-      }] }
+      { 'name' => 'pet_1', 'tag' => nil }
     end
 
     it 'on success' do
       get api_v1_pets_path, headers: authorization_headers
 
-      response_body = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
-      expect(json).to eq response_body
+      expect(json[:data].first[:attributes]).to eq expected_result
     end
   end
 

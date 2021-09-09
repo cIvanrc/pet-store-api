@@ -10,7 +10,7 @@ services:
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
     environment:
-      POSTGRES_PASSWORD: hei0Ie$j4iSe
+      POSTGRES_PASSWORD: hei0Iezj4iSe
 
   api:
     build: .
@@ -23,7 +23,7 @@ services:
     environment:
       # We'll set the DATABASE_URL environment variable for the app to connect
       # to our postgres container - no need to use a 'config/database.yml' file.
-      DATABASE_URL: postgres://postgres:hei0Ie$j4iSe@postgres:5432
+      DATABASE_URL: postgres://postgres:hei0Iezj4iSe@postgres:5432
 
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:

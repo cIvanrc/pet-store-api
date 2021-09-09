@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'support/database_cleaner.rb'
 require 'support/factory_bot.rb'
 require 'support/shoulda_matchers.rb'
+require 'support/jwt_helper.rb'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -36,6 +37,9 @@ end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+  # helper to generate the headers with the jwt
+  config.include JwtHelper
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

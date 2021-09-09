@@ -51,3 +51,6 @@ gem 'jwt'
 
 # Serializer
 gem 'active_model_serializers'
+
+# pagination
+gem 'kaminari'

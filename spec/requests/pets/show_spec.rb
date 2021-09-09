@@ -26,6 +26,7 @@ describe 'Pets show', type: :request do
 
       error_message = {"code"=>199, "message"=>"Unexpected error"}
       expect(json).to eq error_message
+      expect(response).to have_http_status(:internal_server_error)
     end
   end
 end

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'token', to: 'authentication#create'
 
-      resources :pets, only: [:index]
+      resources :pets, only: %i[index create]
     end
   end
 end

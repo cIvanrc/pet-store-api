@@ -18,12 +18,18 @@ class Api::V1::PetsController < ApplicationController
     end
   end
 
+  def show
+    pet = Pet.find(params[:id])
+    render json: pet, status: :ok
+  end
+
   private
   def pet_params
     params.require(:pet).permit(:name, :tag)
   end
 
   def error_missing_params
-    render json: { errors: ['param is missing or the value is empty' ]}, status: :unprocessable_entity
+    errors = ['param is missing or the value is empty']
+    render json: { errors: errors }, status: :unprocessable_entity
   end
 end

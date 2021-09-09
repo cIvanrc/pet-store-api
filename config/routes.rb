@@ -6,4 +6,6 @@ Rails.application.routes.draw do
       resources :pets, only: %i[index create show]
     end
   end
+
+  resources '*unmatched', to: 'application#not_found'
 end

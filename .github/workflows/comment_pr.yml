@@ -1,10 +1,7 @@
 name: Checking schema
 
 on:
-  # Trigger the workflow on push or pull request
   pull_request:
-    branches:
-      - main
 
 jobs:
   comment:
@@ -20,7 +17,6 @@ jobs:
             db/schema.rb
 
       - name: Remove old comments
-        if: steps.verify-changed-files.outputs.any_changed == 'true'
         uses: izhangzhihao/delete-comment@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

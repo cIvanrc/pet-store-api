@@ -21,7 +21,7 @@ jobs:
 
       - name: Comment Pull Request
         uses: actions/github-script@v5
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        if: steps.verify-changed-files.outputs.any_changed == 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |

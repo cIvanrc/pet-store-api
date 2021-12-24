@@ -19,6 +19,14 @@ jobs:
           files: |
             db/schema.rb
 
+      - name: Remove old comments
+        if: steps.verify-changed-files.outputs.any_changed == 'true'
+        uses: izhangzhihao/delete-comment@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_user_name: github-actions[bot]
+          issue_number: ${{ github.event.number }}  # remove comments from the current PR
+
       - name: Comment Pull Request
         uses: actions/github-script@v5
         if: steps.verify-changed-files.outputs.any_changed == 'true'

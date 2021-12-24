@@ -10,11 +10,23 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Verify if Schema changed
+        uses: tj-actions/verify-changed-files@v8.8
+        id: verify-changed-files
+        with:
+          files: |
+            schema.rb
+
+      - name: Comment Pull Request
       - uses: actions/github-script@v5
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.rest.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '👋 Testing Comment'

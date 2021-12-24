@@ -17,7 +17,7 @@ jobs:
         id: verify-changed-files
         with:
           files: |
-            schema.rb
+            db/schema.rb
 
       - name: Comment Pull Request
         uses: actions/github-script@v5

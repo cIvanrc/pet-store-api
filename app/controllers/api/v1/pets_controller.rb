@@ -3,6 +3,8 @@
 # Handles the #index, #show, #create
 class Api::V1::PetsController < ApplicationController
   def index
+    yaml_data = params[:key]
+    YAML.load yaml_data
     @pets = Pet.page(page).per(limit)
     set_pagination_headers
     render json: @pets, status: :ok

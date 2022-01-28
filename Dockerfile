@@ -1,7 +1,7 @@
 # 1: Use ruby 2.7.2 as base:
 FROM ruby:2.7.2-alpine AS runtime
 
-#RUN adduser -S $USER 
+#RUN adduser -S $USER
 RUN addgroup -g 1000 -S username && \
     adduser -u 1000 -S username -G username
 

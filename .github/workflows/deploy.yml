@@ -5,11 +5,11 @@ on:
 
 jobs:
   environment: test
-  needs: ['test']
+  needs: [test]
   test:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: testing
-        run: |
-          echo 'deploying'
+  steps:
+    - name: testing
+      run: |
+        echo 'deploying'

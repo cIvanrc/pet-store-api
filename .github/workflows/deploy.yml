@@ -4,12 +4,13 @@ on:
   pull_request:
 
 jobs:
-  environment: 'test'
-  needs: [test]
-  test:
-  runs-on: ubuntu-latest
+  deploy_to_testing:
+    environment: 'test'
+    needs: [test]
+    test:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: testing
-      run: |
-        echo 'deploying'
+    steps:
+      - name: testing
+        run: |
+          echo 'deploying'

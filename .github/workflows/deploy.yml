@@ -1,0 +1,15 @@
+name: CD
+
+on:
+  pull_request:
+
+jobs:
+  environment: test
+  needs: ['test']
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: testing
+        run: |
+          echo 'deploying'

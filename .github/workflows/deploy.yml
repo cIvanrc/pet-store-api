@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  environment: test
+  environment: 'test'
   needs: [test]
   test:
   runs-on: ubuntu-latest

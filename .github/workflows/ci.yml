@@ -65,6 +65,14 @@ jobs:
         if: steps.haml-changed-files.outputs.any_changed == 'true'
         run: |
           haml-lint ${{ steps.haml-changed-files.outputs.all_changed_files }}
+
+      - name: Cancel future jobs if linter fails
+        if: failure()
+        uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: cIvanrc/pet-store-api
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}
   test:
     runs-on: ubuntu-latest
 
@@ -80,3 +88,10 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm api rspec
+
+  another_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+        echo 'another job'

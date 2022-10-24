@@ -21,7 +21,7 @@ jobs:
         uses: tj-actions/changed-files@v33
         with:
           files: |
-            **/*.rb$
+            **/*.rb
 
       - name: Run step if any file(s) in the docs folder change
         run: |

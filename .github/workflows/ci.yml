@@ -48,6 +48,7 @@ jobs:
           gem install rubocop-performance -v 1.10.1 --no-document
           gem install rubocop-rails -v 2.9.1 --no-document
           gem install rubocop-rspec -v 2.2.0 --no-document
+          gem install reek -v 6.1.1
 
       - name: Install haml linter
         if: steps.haml-changed-files.outputs.any_changed == 'true'
@@ -58,6 +59,7 @@ jobs:
         if: steps.ruby-changed-files.outputs.any_changed == 'true'
         run: |
           rubocop ${{ steps.ruby-changed-files.outputs.all_changed_files }}
+          reek ${{ steps.ruby-changed-files.outputs.all_changed_files }}
 
       - name: Run haml linter
         if: steps.haml-changed-files.outputs.any_changed == 'true'

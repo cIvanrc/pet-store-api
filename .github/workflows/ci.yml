@@ -96,4 +96,4 @@ jobs:
       - name: Testing
         run: |
           echo 'another job'
-          sleep 100s
+          sleep 60s

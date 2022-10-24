@@ -19,9 +19,9 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v33
-        # with:
-        #   files: |
-        #     "*.rb$"
+        with:
+          files: |
+            "*.rb"
 
       - name: Run step if any file(s) in the docs folder change
         run: |

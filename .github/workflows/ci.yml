@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  cancel_workflows:
+  linter:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -17,9 +17,6 @@ jobs:
         with:
           access_token: ${{ secrets.GITHUB_TOKEN  }}
 
-  linter:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.

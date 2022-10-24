@@ -4,10 +4,9 @@
 # another change
 class JsonWebToken
   def self.encode(payload)
-    v = [1..10].map(&:to_s)
-    puts v
     expiration = 60.minutes.from_now.to_i
     payload = payload.merge(exp: expiration)
+    binding.pry
     JWT.encode(payload, jwt_secret)
   end
 

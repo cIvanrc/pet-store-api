@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  linter:
+  linters:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -65,18 +65,18 @@ jobs:
         if: steps.haml-changed-files.outputs.any_changed == 'true'
         run: |
           haml-lint ${{ steps.haml-changed-files.outputs.all_changed_files }}
-  # test:
-  #   runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Build docker
-  #       run: |
-  #         docker-compose build
-  #     - name: Setup test database
-  #       run: |
-  #         docker-compose run --rm api rails db:setup RAILS_ENV=test
-  #     - name: Run tests
-  #       run: |
-  #         docker-compose run --rm api rspec
+      - name: Build docker
+        run: |
+          docker-compose build
+      - name: Setup test database
+        run: |
+          docker-compose run --rm api rails db:setup RAILS_ENV=test
+      - name: Run tests
+        run: |
+          docker-compose run --rm api rspec

@@ -16,19 +16,31 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
-      - name: Get changed files
-        id: changed-files
+      - name: Get ruby changed files
+        id: ruby-changed-files
         uses: tj-actions/changed-files@v33
         with:
           files: |
             **/*.rb
 
-      - name: Run step if any file(s) in the docs folder change
-        if: steps.changed-files.outputs.any_changed == 'true'
+      - name: Run ruby linters if any file changed
+        if: steps.ruby-changed-files.outputs.any_changed == 'true'
         run: |
-          echo "One or more files in the docs folder has changed."
+          echo "Run rubobop and reek"
           echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
 
+      - name: Get haml changed files
+        id: haml-changed-files
+        uses: tj-actions/changed-files@v33
+        with:
+          files: |
+            **/*.haml
+
+      - name: Run haml linter if any file changed
+        if: steps.haml-changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "Run haml-lin"
+          echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
   # test:
   #   runs-on: ubuntu-latest
 

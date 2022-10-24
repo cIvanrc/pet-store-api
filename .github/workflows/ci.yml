@@ -24,6 +24,7 @@ jobs:
             **/*.rb
 
       - name: Run step if any file(s) in the docs folder change
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"

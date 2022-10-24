@@ -6,8 +6,7 @@ class JsonWebToken
   def self.encode(payload)
     expiration = 60.minutes.from_now.to_i
     payload = payload.merge(exp: expiration)
-    unused_var = ''
-    JWT.encode(payload, jwt_secret)
+  JWT.encode(payload, jwt_secret)
   end
 
   def self.decode(token)

@@ -93,5 +93,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-        echo 'another job'
+      - name: Testing
+        run: |
+          echo 'another job'

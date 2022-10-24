@@ -18,7 +18,4 @@ class JsonWebToken
   end
 
   private_class_method :jwt_secret
-
-
-
 end

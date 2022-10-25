@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Handles the #encode and #decode JWT
+# another change
 class JsonWebToken
   def self.encode(payload)
     expiration = 60.minutes.from_now.to_i

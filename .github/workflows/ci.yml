@@ -9,11 +9,75 @@ on:
   pull_request:
 
 jobs:
+  linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN  }}
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      - name: Get ruby changed files
+        id: ruby-changed-files
+        uses: tj-actions/changed-files@v33
+        with:
+          files: |
+            **/*.rb
+
+      - name: Get haml changed files
+        id: haml-changed-files
+        uses: tj-actions/changed-files@v33
+        with:
+          files: |
+            **/*.haml
+
+      - uses: ruby/setup-ruby@v1
+        if: (steps.ruby-changed-files.outputs.any_changed == 'true') || (steps.haml-changed-files.outputs.any_changed == 'true')
+        with:
+          ruby-version: '2.6' # Not needed with a .ruby-version file
+
+      - name: Install ruby linters
+        if: steps.ruby-changed-files.outputs.any_changed == 'true'
+        run: |
+          gem install activesupport -v 5.2.6
+          gem install rubocop -v 1.11.0 --no-document
+          gem install rubocop-performance -v 1.10.1 --no-document
+          gem install rubocop-rails -v 2.9.1 --no-document
+          gem install rubocop-rspec -v 2.2.0 --no-document
+          gem install reek -v 6.1.1
+
+      - name: Install haml linter
+        if: steps.haml-changed-files.outputs.any_changed == 'true'
+        run: |
+          gem install haml_lint -v 0.37.0 --no-document
+
+      - name: Run ruby linters
+        if: steps.ruby-changed-files.outputs.any_changed == 'true'
+        run: |
+          rubocop ${{ steps.ruby-changed-files.outputs.all_changed_files }}
+          reek ${{ steps.ruby-changed-files.outputs.all_changed_files }}
+
+      - name: Run haml linter
+        if: steps.haml-changed-files.outputs.any_changed == 'true'
+        run: |
+          haml-lint ${{ steps.haml-changed-files.outputs.all_changed_files }}
+
+      - name: Cancel workflow if linter fails
+        if: failure()
+        uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: cIvanrc/pet-store-api
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Build docker
         run: |
@@ -24,3 +88,12 @@ jobs:
       - name: Run tests
         run: |
           docker-compose run --rm api rspec
+
+  another_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Testing
+        run: |
+          echo 'another job'
+          sleep 60s
